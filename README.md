@@ -4,16 +4,24 @@ Repositorio con los entregables de la Actividad 2 (arboles de decision ID3/J48
 y Naive Bayes sobre el dataset Iris), dentro de la carpeta `arboles/` segun lo
 solicitado.
 
+## Integrantes
+
+| Nombre | Matricula |
+|---|---|
+| Fernando Alfaro Montalvo | 221204 |
+| Mauricio Santiago Castillo Dominguez | 190895 |
+| Gustavo Adolfo Morales Esparza | 220292 |
+
 ## Contenido (`arboles/`)
 
 | Carpeta | Entregable | Contenido |
 |---|---|---|
-| `punto2_id3/` | 1. PDF con el resultado de ID3 sobre Iris | `ID3_Iris_reporte.pdf` (reporte) + `ID3_Iris_resultado.xlsx` (datos, arbol, clasificacion y matriz de confusion con formulas) |
-| `punto4_j48_weka/` | 2. Reporte de J48 en Weka | `J48_Weka_reporte.pdf` |
-| `punto9_colab/` | 3 y 7. Liga al cuaderno Colab | `iris_arboles_naivebayes.ipynb` — abrir en Colab: https://colab.research.google.com/github/FerAlfaro24/Arboles/blob/main/arboles/punto9_colab/iris_arboles_naivebayes.ipynb |
-| `punto6_naivebayes_r/` | 4. Rmd y html del punto 6 | `punto6_naiveBayes_iris.Rmd` (codigo R) + `punto6_naiveBayes_iris.html` (resultado real, generado con Knit en RStudio) |
-| `punto2_id3/ID3_Iris_resultado.xlsx` (hojas `muestra_NB_20` y `matriz_confusion_NB`) | 5. Matriz del punto 7 | Muestra de 20 observaciones y matriz de confusion de Naive Bayes manual |
-| `punto8_naivebayes_fci/` | 6. Rmd y html del punto 8 | `punto8_actividadNBFCI.Rmd` + `punto8_actividadNBFCI.html` (dataset ficticio FCI, resultado real generado con Knit) |
+| `punto2_id3/` | 1. PDF con el resultado de ID3 sobre Iris | [`ID3_Iris_reporte.pdf`](arboles/punto2_id3/ID3_Iris_reporte.pdf) (reporte) + [`ID3_Iris_resultado.xlsx`](arboles/punto2_id3/ID3_Iris_resultado.xlsx) (datos, arbol, clasificacion y matriz de confusion con formulas) |
+| `punto4_j48_weka/` | 2. Reporte de J48 en Weka | [`J48_Weka_reporte.pdf`](arboles/punto4_j48_weka/J48_Weka_reporte.pdf) |
+| `punto9_colab/` | 3 y 7. Liga al cuaderno Colab | [`iris_arboles_naivebayes.ipynb`](arboles/punto9_colab/iris_arboles_naivebayes.ipynb) — abrir en Colab: [colab.research.google.com/.../iris_arboles_naivebayes.ipynb](https://colab.research.google.com/github/FerAlfaro24/Arboles/blob/main/arboles/punto9_colab/iris_arboles_naivebayes.ipynb) |
+| `punto6_naivebayes_r/` | 4. Rmd y html del punto 6 | [`punto6_naiveBayes_iris.Rmd`](arboles/punto6_naivebayes_r/punto6_naiveBayes_iris.Rmd) (codigo R) + [`punto6_naiveBayes_iris.html`](https://htmlpreview.github.io/?https://github.com/FerAlfaro24/Arboles/blob/main/arboles/punto6_naivebayes_r/punto6_naiveBayes_iris.html) (resultado real, generado con Knit en RStudio) |
+| [`ID3_Iris_resultado.xlsx`](arboles/punto2_id3/ID3_Iris_resultado.xlsx) (hojas `muestra_NB_20` y `matriz_confusion_NB`) | 5. Matriz del punto 7 | Muestra de 20 observaciones y matriz de confusion de Naive Bayes manual |
+| `punto8_naivebayes_fci/` | 6. Rmd y html del punto 8 | [`punto8_actividadNBFCI.Rmd`](arboles/punto8_naivebayes_fci/punto8_actividadNBFCI.Rmd) + [`punto8_actividadNBFCI.html`](https://htmlpreview.github.io/?https://github.com/FerAlfaro24/Arboles/blob/main/arboles/punto8_naivebayes_fci/punto8_actividadNBFCI.html) (dataset ficticio FCI, resultado real generado con Knit) |
 
 ## Nota sobre los archivos .Rmd
 
