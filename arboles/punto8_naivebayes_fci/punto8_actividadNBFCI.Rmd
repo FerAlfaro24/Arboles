@@ -1,0 +1,121 @@
+---
+title: "Naive Bayes: Rendimiento academico en la FCI (dataset ficticio)"
+author: "Alferry"
+date: "2025-07-02"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    collapse: true
+    smooth_scroll: true
+    theme: journal
+    highlight: kate
+    df_print: paged
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduccion
+
+Se genero un conjunto de datos **ficticio** de 40 estudiantes de la FCI, con
+cuatro atributos categoricos (`TiempoEstudio`, `Asistencia`, `Participacion`,
+`SituacionEcon`) y la variable objetivo `Rendimiento` (4 niveles: Excelente,
+Bueno, Regular, Deficiente), siguiendo las categorias definidas en la actividad.
+Se aplica **Naive Bayes** (`e1071::naiveBayes`) para predecir el rendimiento a
+partir del resto de atributos, entrenando con el 80% de los datos y probando
+con el 20% restante.
+
+## Cargar paquetes
+
+```{r}
+library(e1071)
+library(caret)
+```
+
+## Conjunto de datos (ficticio, 40 estudiantes)
+
+```{r}
+fci <- data.frame(
+  Estudiante = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40),
+  TiempoEstudio = c("Alto", "Bajo", "Bajo", "Bajo", "Medio", "Alto", "Medio", "Alto", "Alto", "Bajo",
+                     "Medio", "Medio", "Bajo", "Alto", "Bajo", "Medio", "Alto", "Bajo", "Medio", "Medio",
+                     "Alto", "Medio", "Medio", "Alto", "Alto", "Alto", "Bajo", "Bajo", "Alto", "Alto",
+                     "Medio", "Medio", "Alto", "Bajo", "Bajo", "Medio", "Alto", "Bajo", "Medio", "Alto"),
+  Asistencia = c("Media", "Baja", "Baja", "Alta", "Alta", "Media", "Media", "Baja", "Baja", "Media",
+                  "Baja", "Baja", "Media", "Baja", "Baja", "Media", "Baja", "Baja", "Baja", "Media",
+                  "Alta", "Media", "Baja", "Media", "Media", "Media", "Media", "Media", "Alta", "Alta",
+                  "Baja", "Baja", "Baja", "Baja", "Alta", "Alta", "Media", "Media", "Baja", "Media"),
+  Participacion = c("Baja", "Baja", "Media", "Alta", "Baja", "Media", "Baja", "Baja", "Baja", "Media",
+                      "Baja", "Baja", "Media", "Alta", "Baja", "Alta", "Baja", "Media", "Baja", "Alta",
+                      "Alta", "Alta", "Media", "Media", "Baja", "Baja", "Media", "Alta", "Media", "Alta",
+                      "Baja", "Baja", "Alta", "Baja", "Alta", "Baja", "Alta", "Alta", "Media", "Media"),
+  SituacionEcon = c("Buena", "Mala", "Mala", "Mala", "Mala", "Mala", "Buena", "Mala", "Mala", "Mala",
+                      "Mala", "Mala", "Mala", "Buena", "Buena", "Mala", "Mala", "Mala", "Mala", "Mala",
+                      "Mala", "Mala", "Mala", "Mala", "Mala", "Mala", "Mala", "Mala", "Buena", "Buena",
+                      "Mala", "Mala", "Mala", "Mala", "Mala", "Buena", "Buena", "Buena", "Mala", "Buena"),
+  Rendimiento = c("Excelente", "Deficiente", "Deficiente", "Bueno", "Regular", "Excelente", "Bueno",
+                   "Deficiente", "Deficiente", "Deficiente", "Regular", "Deficiente", "Regular", "Excelente",
+                   "Regular", "Bueno", "Regular", "Deficiente", "Deficiente", "Bueno", "Excelente", "Bueno",
+                   "Regular", "Excelente", "Regular", "Bueno", "Deficiente", "Bueno", "Excelente", "Excelente",
+                   "Deficiente", "Deficiente", "Bueno", "Deficiente", "Bueno", "Bueno", "Excelente", "Bueno",
+                   "Deficiente", "Bueno"),
+  stringsAsFactors = TRUE
+)
+
+str(fci)
+table(fci$Rendimiento)
+```
+
+## Particion 80% entrenamiento / 20% prueba
+
+```{r}
+set.seed(99)
+train_index <- createDataPartition(fci$Rendimiento, p = 0.8, list = FALSE)
+train_data <- fci[train_index, -1]   # se excluye la columna Estudiante (id)
+test_data  <- fci[-train_index, -1]
+
+dim(train_data)
+dim(test_data)
+```
+
+## Entrenamiento del modelo Naive Bayes
+
+```{r}
+modelo_nb_fci <- naiveBayes(Rendimiento ~ ., data = train_data)
+print(modelo_nb_fci)
+```
+
+## Prediccion sobre el conjunto de prueba
+
+```{r}
+predicciones <- predict(modelo_nb_fci, test_data)
+data.frame(Real = test_data$Rendimiento, Predicho = predicciones)
+```
+
+## Matriz de confusion
+
+```{r}
+niveles <- c("Excelente", "Bueno", "Regular", "Deficiente")
+matriz <- table(Predicho = factor(predicciones, levels = niveles),
+                 Real = factor(test_data$Rendimiento, levels = niveles))
+matriz
+
+accuracy <- sum(diag(matriz)) / sum(matriz)
+cat("Accuracy:", round(accuracy, 4), "\n")
+```
+
+## Conclusion
+
+Con solo 40 observaciones ficticias y 4 clases objetivo, el 20% de prueba
+corresponde a apenas 8 estudiantes, por lo que la exactitud es sensible al azar
+de la particion train/test. Aun asi, el modelo capta correctamente la relacion
+esperada: mayor tiempo de estudio, asistencia y participacion, junto con una
+buena situacion economica, se asocian con mejor rendimiento. Los errores del
+modelo se concentran en las clases intermedias (`Regular`/`Deficiente` y
+`Bueno`/`Excelente`), que son las mas dificiles de distinguir por tener
+fronteras menos marcadas que los casos extremos.
